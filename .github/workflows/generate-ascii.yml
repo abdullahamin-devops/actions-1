@@ -7,9 +7,6 @@ jobs:
     build_job_1:
         runs-on: ubuntu-latest
         steps:
-            - name: Checkout repo
-              uses: actions/checkout@v5
-
             - name: Install Cowsay Program
               run: sudo apt-get install cowsay -y
 
@@ -20,11 +17,9 @@ jobs:
               run: sleep 30
 
     test_job_2:
+        needs: build_job_1
         runs-on: ubuntu-latest
         steps:
-            - name: Checkout repo
-              uses: actions/checkout@v5
-
             - name: Sleep 10 Seconds
               run: sleep 10
 
@@ -32,11 +27,9 @@ jobs:
               run: grep -i "dragon" dragon.txt
 
     deploying_job_3:
+        needs: [test_job_2]
         runs-on: ubuntu-latest
         steps:
-            - name: Checkout repo
-              uses: actions/checkout@v5
-              
             - name: Read File
               run: cat dragon.txt
 
